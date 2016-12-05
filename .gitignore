@@ -1,0 +1,11 @@
+!.gitkeep
+/target/
+/out/
+.classpath
+.project
+.settings
+*.iml
+*.iws
+*.log
+
+src/main/resources/application-dev.properties
