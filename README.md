@@ -5,4 +5,5 @@
  * run `SPRING_PROFILES_ACTIVE=dev,default mvn spring-boot:run`
 
 #### # supported technologies
+ * logging framework (http://logback.qos.ch/)
  * database migrations (https://flywaydb.org/)
