@@ -1,6 +1,9 @@
 package com.example.auth.controller;
 
 import com.example.auth.dto.UserCredentialsDTO;
+import com.example.auth.dto.UserRegisterDTO;
+import com.example.auth.model.User;
+import com.example.auth.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -25,6 +28,9 @@ public class UserController {
 	@Qualifier("localAuthServer")
 	private ResourceOwnerPasswordResourceDetails resourceDetails;
 
+	@Autowired
+	private UserRepository userRepository;
+
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ResponseEntity<OAuth2AccessToken> login(@Valid @RequestBody UserCredentialsDTO credentials) throws Throwable {
 		resourceDetails.setUsername(credentials.getUsername());
@@ -38,5 +44,15 @@ public class UserController {
 		} catch (Exception ex) {
 			throw ex.getCause(); // because we want to know origin exception
 		}
+	}
+
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	public ResponseEntity<User> register(@Valid @RequestBody UserRegisterDTO data) throws Throwable {
+		User user = new User();
+		user.setEmail(data.getEmail());
+		user.setPassword(data.getPassword());
+		userRepository.saveAndFlush(user);
+
+		return new ResponseEntity<User>(user, HttpStatus.CREATED);
 	}
 }
