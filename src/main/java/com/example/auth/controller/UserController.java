@@ -4,6 +4,8 @@ import com.example.auth.dto.UserCredentialsDTO;
 import com.example.auth.dto.UserRegisterDTO;
 import com.example.auth.model.User;
 import com.example.auth.repository.UserRepository;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -22,14 +24,14 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/users")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserController {
 
 	@Autowired
 	@Qualifier("localAuthServer")
 	private ResourceOwnerPasswordResourceDetails resourceDetails;
 
-	@Autowired
-	private UserRepository userRepository;
+	private final @NonNull UserRepository userRepository;
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ResponseEntity<OAuth2AccessToken> login(@Valid @RequestBody UserCredentialsDTO credentials) throws Throwable {
